@@ -63,5 +63,12 @@ Make the script executable and run it:
 chmod +x letsencrypt-mikrotik-cert.sh
 ./letsencrypt-mikrotik-cert.sh
 ```
-
 That's pretty much it, you should be able to access your router wia a secure conenction on https://mikrotik.mydomain.com/
+
+### Enable automatic certificate renewal
+Let's Encrypt certificates are valid only for 90 days and need to be renewed regularly. Continuing with our Web Server, we can simply create a cron job that renews the certificate, restarts Apache and uploads the new certo to Mikrotik
+```sh
+crontab -e
+0 0,12 * * * /usr/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot-auto renew --post-hook 'systemctl reload httpd; /opt/letsencrypt-mikrotik-cert/letsencrypt-mikrotik-cert.sh' > /dev/null 2>&1
+```
+That's all there is to it
