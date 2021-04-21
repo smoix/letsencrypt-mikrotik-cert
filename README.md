@@ -1,4 +1,4 @@
-# Lets's Encrypt Mikrotik SSL/TLS certificate
+# Automate Lets's Encrypt SSL/TLS certificate on Mikrotik RouterOS
 
 This is a script to upload a Let's Encrypt (or any other valid certificate for that matter) SSL/TLS certificate to a Mikrotik router and activate it on SSL Webfig and SSL API services. The certificate can then also be used for SSTP or other VPN requiring a certificate. It losely based on https://github.com/gitpel/letsencrypt-routeros with a focus on simplicity.
 
