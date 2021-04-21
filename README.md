@@ -40,7 +40,7 @@ scp /opt/letsencrypt-mikrotik-cert/id_rsa_letsencrypt.pub letsencrypt@192.168.0.
 ```
 ![mikrotik-file-certificate](https://user-images.githubusercontent.com/22095317/115501660-e57c4f00-a273-11eb-9bb8-5cea6d30bf97.png)
 
-And import the newly uploaded certificate in Mikrotik, under System > Users > SSH Keys
+And import the newly uploaded certificate in Mikrotik, under System > Users > SSH Keys. You can now safely delete the certificate we uploaded previously in the "Files"
 
 ![mikrotik-file-key-import](https://user-images.githubusercontent.com/22095317/115501668-e9a86c80-a273-11eb-9ed0-d003f5241b66.png)
 
