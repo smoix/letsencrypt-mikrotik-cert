@@ -26,9 +26,11 @@ git clone https://github.com/smoix/letsencrypt-mikrotik-cert
 
 ### Configure an user on your Mikrotik to do SSH transfers
 Go to the Mikrotik, and using Winbox enable the SSH service under IP > Services. Enable it only on your local network for security reasons (remember that the web server where we generated the SSL/TLS certificate is on the same local network). Don't forget to create a firewall rule for port 22 in the "Input" chain.
+
 ![mikrotik-enable-ssh](https://user-images.githubusercontent.com/22095317/115501618-d39aac00-a273-11eb-8a0a-07096f13900c.png)
 
 Then create an user under System > Users > Users. Mine is called "letsencrypt", has full privileges and a long password we will only use once.
+
 ![mikrotik-create-user](https://user-images.githubusercontent.com/22095317/115501601-cbdb0780-a273-11eb-8715-de869de0bd55.png)
 
 From our Web Server, we then need to create an SSH RSA certificate so we can login to our Mikrotik server remotely using the user we just created, to create and upload this key to our Mikrotik
@@ -39,6 +41,7 @@ scp /opt/letsencrypt-mikrotik-cert/id_rsa_letsencrypt.pub letsencrypt@192.168.0.
 ![mikrotik-file-certificate](https://user-images.githubusercontent.com/22095317/115501660-e57c4f00-a273-11eb-9bb8-5cea6d30bf97.png)
 
 And import the newly uploaded certificate in Mikrotik, under System > Users > SSH Keys
+
 ![mikrotik-file-key-import](https://user-images.githubusercontent.com/22095317/115501668-e9a86c80-a273-11eb-9ed0-d003f5241b66.png)
 
 After that you should be able to login without password to your server:
