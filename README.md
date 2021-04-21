@@ -56,7 +56,7 @@ MIKROTIK_HOST=192.168.0.1
 MIKROTIK_PORT=22
 MIKROTIK_USER=letsencrypt
 MIKROTIK_SSH_KEY=/opt/letsencrypt-mikrotik-cert/id_rsa_letsencrypt
-LE_DOMAIN=www.mydomain.com
+LE_DOMAIN=www.mydomain.com (this is the first domain listed in your certificate creation command)
 ```
 Make the script executable and run it:
 ```sh
