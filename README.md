@@ -33,7 +33,7 @@ Then create an user under System > Users > Users. Mine is called "letsencrypt", 
 
 ![mikrotik-create-user](https://user-images.githubusercontent.com/22095317/115501601-cbdb0780-a273-11eb-8715-de869de0bd55.png)
 
-From our Web Server, we then need to create an SSH RSA certificate so we can login to our Mikrotik server remotely using the user we just created, to create and upload this key to our Mikrotik
+From our Web Server, we then need to create an SSH RSA certificate so we can login to our Mikrotik server remotely using the user we just created, to create and upload this key to our Mikrotik (which has IP 192.168.0.1)
 ```sh
 ssh-keygen -f /opt/letsencrypt-mikrotik-cert/id_rsa_letsencrypt -N ""
 scp /opt/letsencrypt-mikrotik-cert/id_rsa_letsencrypt.pub letsencrypt@192.168.0.1:id_rsa_letsencrypt.pub
