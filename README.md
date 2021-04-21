@@ -25,7 +25,7 @@ git clone https://github.com/smoix/letsencrypt-mikrotik-cert
 ```
 
 ### Configure an user on your Mikrotik to do SSH transfers
-Go to the Mikrotik, and using Winbox enable the SSH service under IP > Services. Enable it only on your local network for security reasons (remember that the web server where we generated the SSL/TLS certificate is on the same local network). Don't forget to create a firewall rule for port 22 in the "Input" chain.
+Go to the Mikrotik, and using Winbox/WebFig enable the SSH service under IP > Services. Enable it only on your local network for security reasons (remember that the web server where we generated the SSL/TLS certificate is on the same local network). Don't forget to create a firewall rule for port 22 in the "Input" chain.
 
 ![mikrotik-enable-ssh](https://user-images.githubusercontent.com/22095317/115501618-d39aac00-a273-11eb-8a0a-07096f13900c.png)
 
