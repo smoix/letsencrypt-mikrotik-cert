@@ -12,7 +12,7 @@ To generate a valid (not auto-signed) SSL/TLS certificate we can either buy one 
 
 The easiest way is to have an existing Web Server and generate a certificate there, adding a second domain to an already existing certificate for our Mikrotik. In this example, on a CentOS 8 Stream Web Server, I m'm adding "mikrotik.mydomain.com" to the certificate for "www.mydomain.com". Here is a certificate generation example using the HTTP-01 challenge; it creates a challenge in /var/www/www.mydomain.com/, which is the root directory of the www.mydomain.com domain:
 ```sh
-certbot-auto certonly --webroot --webroot-path /var/www/www.mydomain.com/ --domain www.mydomain.com --domain mikrotik.amydomain.com --email webmaster@mydomain.com
+certbot certonly --webroot --webroot-path /var/www/www.mydomain.com/ --domain www.mydomain.com --domain mikrotik.amydomain.com --email webmaster@mydomain.com
 ```
 
 This generates a valid certificate in /etc/letsencrypt/live/www.mydomain.com/fullchain.pem and the private key in /etc/letsencrypt/live/www.mydomain.com/privkey.pem and it's time to automate the transfer to our Mikrotik router as we don't want to manually do this every 90 days or so when it is renewed. 
@@ -69,6 +69,6 @@ That's pretty much it, you should be able to access your router wia a secure con
 Let's Encrypt certificates are valid only for 90 days and need to be renewed regularly. Continuing with our Web Server, we can simply create a cron job that renews the certificate, restarts Apache and uploads the new certo to Mikrotik
 ```sh
 crontab -e
-0 0,12 * * * /usr/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot-auto renew --post-hook 'systemctl reload httpd; /opt/letsencrypt-mikrotik-cert/letsencrypt-mikrotik-cert.sh' > /dev/null 2>&1
+0 0,12 * * * /usr/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot renew --post-hook 'systemctl reload httpd; /opt/letsencrypt-mikrotik-cert/letsencrypt-mikrotik-cert.sh' > /dev/null 2>&1
 ```
 That's all there is to it
