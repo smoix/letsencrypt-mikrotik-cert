@@ -1,0 +1,89 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: mtk-certificate
+  labels:
+    name: mtk-certificate
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mtk-cert
+  namespace: mtk-certificate
+  # labels:
+  #   use-dns01-solver: stg
+spec:
+  commonName: apsala.van.benito.com.br
+  secretName: mtk-cert
+  dnsNames:
+    - apsala.van.benito.com.br
+  issuerRef:
+    # name: letsencrypt-staging
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+---
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  namespace: mtk-certificate
+  name: env-config
+data:
+  # Configuration values can be set as key-value properties
+  # HOSTIP is optional if mikrotik has a HOSTNAME DNS regristy
+  # MTK_HOSTIP: 192.168.88.1
+  MTK_HOSTNAME: mymtk.myhome.lan
+  # MTK_SSH_PORT: 22
+  # MTK_SSH_USERNAME: letsencrypt
+  # LE_DOMAIN is the domain in the LetEncrypt cerificate, it might be, 
+  # and most probably is, equal to hostname
+  MTK_LE_DOMAIN: mymtk.example.com
+---
+# This section is optional if External-DNS is installed and
+# will be used to create DNS entry. If DNS entry already exist
+# leve commented.
+# apiVersion: externaldns.k8s.io/v1alpha1
+# kind: DNSEndpoint
+# metadata:
+#   name: aws-dns-record
+#   namespace: mtk-certificate
+# spec:
+#   endpoints:
+#   - dnsName: mymtk.example.com
+#     recordTTL: 300
+#     recordType: A
+#     targets:
+#     - 192.168.88.1
+# ---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: mtk-update-certificate
+  namespace: mtk-certificate
+spec:
+  schedule: "@weekly"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: mtk-updater
+            image: jrbenito/mtk-cert-update:latest
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: ssh-key-volume
+              mountPath: "/opt/letsencrypt-mikrotik-cert"
+            - name: mtk-certificate-volume
+              mountPath: "/etc/letsencrypt/live"
+            envFrom:
+            - configMapRef:
+                name: env-config
+          restartPolicy: Never
+          volumes:
+          - name: ssh-key-volume
+            secret:
+              secretName: user-ssh-key
+              defaultMode: 256
+          - name: mtk-certificate-volume
+            secret:
+              secretName: mtk-cert
+              defaultMode: 256
